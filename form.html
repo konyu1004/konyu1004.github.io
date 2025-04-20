@@ -1,72 +1,91 @@
 <!DOCTYPE html>
 <html>
 <head>
- <title>구글 앱스 스크립트로 정보 전달</title>
- <link rel="stylesheet" href="style.css">
- <script>
- function submitForm(event) {
- event.preventDefault();
- const email = document.getElementById( "email" ).value;
- const name = document.getElementById( "name" ).value;
- const message = document.getElementById( "message" ).value;
- fetch("https://script.google.com/macros/s/AKfycbwvhmrCpD9y3yZX-DgfymrUTZ7hhtaposz-5YNBt1--9rSlISRR0t7s5w5HUeEBnYRZ/exec", {
- method: "POST",
- mode: "no-cors",
- headers: {
- "Content-Type": "application/x-www-form-urlencoded"
- },
- body: `email=${encodeURIComponent(email)}&name=${encodeURIComponent(name)}&message=${encodeURIComponent(message)}`
- }).then(response => {
- alert("정보가 성공적으로 전송되었습니다!");
- }).catch(error => {
- alert("전송 실패: " + error.message);
- });
- }
- </script>
+  <title>구글 앱스 스크립트로 정보 전달</title>
+  <link rel="stylesheet" href="style.css">
+  <script>
+    function submitForm(event) {
+      event.preventDefault();
+
+      const email = document.getElementById("email").value;
+      const name = document.getElementById("name").value;
+      const message = document.getElementById("message").value;
+      const favoriteAnimal = document.getElementById("favoriteAnimal").value;
+      const want = document.getElementById("want").value;
+
+  
+      const hobbyList = [];
+      if (document.getElementById("hobby1").checked) hobbyList.push("책읽기");
+      if (document.getElementById("hobby2").checked) hobbyList.push("잠자기");
+      if (document.getElementById("hobby3").checked) hobbyList.push("달리기");
+      if (document.getElementById("hobby4").checked) hobbyList.push("영화보기");
+      const hobby = hobbyList.join(", ");
+
+      
+      let icecream = "";
+      if (document.getElementById("ice1").checked) icecream = "초코";
+      else if (document.getElementById("ice2").checked) icecream = "딸기";
+      else if (document.getElementById("ice3").checked) icecream = "바닐라";
+
+      fetch("https://script.google.com/macros/s/AKfycbxetjuH4svPxbNCQGLB8bvQl_iq6iijfobu6F7-OlVdMLIYadFztX2s1gSOkz4yrumNSg/exec", {
+        method: "POST",
+        mode: "no-cors",
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded"
+        },
+        body: `email=${encodeURIComponent(email)}&name=${encodeURIComponent(name)}&message=${encodeURIComponent(message)}&favoriteAnimal=${encodeURIComponent(favoriteAnimal)}&want=${encodeURIComponent(want)}&hobby=${encodeURIComponent(hobby)}&icecream=${encodeURIComponent(icecream)}`
+      }).then(response => {
+        alert("정보가 성공적으로 전송되었습니다!");
+      }).catch(error => {
+        alert("전송 실패: " + error.message);
+      });
+    }
+  </script>
 </head>
 <body>
-    <h2>정보 제출 폼</h2>
-    <form onsubmit="submitForm(event)">
+  <h2>정보 제출 폼</h2>
+  <form onsubmit="submitForm(event)">
+    <label for="email">이메일:</label><br>
+    <input type="email" id="email" name="email" placeholder="id@duksung.ac.kr" required><br><br>
 
-      <fieldset>
-        <legend>기본 정보</legend><br>
-        <label for="email">이메일:</label><br>
-        <input type="email" id="email" name="email" placeholder="id@duksung.ac.kr" required><br><br>
-        <label for="name">이름:</label><br>
-        <input type="text" id="name" name="name" placeholder="김기니" required><br><br>
-      </fieldset>
+    <label for="name">이름:</label><br>
+    <input type="text" id="name" name="name" placeholder="김기니" required><br><br>
 
-      <fieldset>
-        <legend>취향 정보</legend>
-        <br>
-        <label for="hobby">취미:</label><br>
-        <input type="checkbox" name="hobby" value="책읽기"> 책읽기<br>
-        <input type="checkbox" name="hobby" value="잠자기"> 잠자기<br>
-        <input type="checkbox" name="hobby" value="달리기"> 달리기<br>
-        <input type="checkbox" name="hobby" value="영화보기"> 영화보기<br><br>
-        <label for="icecream">좋아하는 아이스크림 맛:</label><br>
-        <input type="radio" name="icecream" value="초코"> 초코<br>
-        <input type="radio" name="icecream" value="딸기"> 딸기<br>
-        <input type="radio" name="icecream" value="바닐라"> 바닐라<br><br>
-        <label for="favoritAnimal">좋아하는 동물</label><br>
-        <input list="animal" id="favoriteAnimal" name="favoriteAnimal" placeholder="입력하세요">
-        <datalist id="animal">
-            <option value="고양이">
-            <option value="강아지">
-            <option value="토끼">
-            <option value="기니피그">
-        </datalist><br><br>
-      </fieldset>
-      <br>
+    <fieldset>
+      <legend>취미 (중복 선택 가능)</legend>
+      <input type="checkbox" id="hobby1" name="hobby" value="책읽기"> 책읽기<br>
+      <input type="checkbox" id="hobby2" name="hobby" value="잠자기"> 잠자기<br>
+      <input type="checkbox" id="hobby3" name="hobby" value="달리기"> 달리기<br>
+      <input type="checkbox" id="hobby4" name="hobby" value="영화보기"> 영화보기<br><br>
+    </fieldset>
+
+    <fieldset>
+      <legend>좋아하는 아이스크림 맛</legend>
+      <input type="radio" id="ice1" name="icecream" value="초코"> 초코<br>
+      <input type="radio" id="ice2" name="icecream" value="딸기"> 딸기<br>
+      <input type="radio" id="ice3" name="icecream" value="바닐라"> 바닐라<br><br>
+    </fieldset>
+
+    <label for="favoriteAnimal">좋아하는 동물:</label><br>
+    <input list="animal" id="favoriteAnimal" name="favoriteAnimal" placeholder="입력하세요">
+    <datalist id="animal">
+      <option value="고양이">
+      <option value="강아지">
+      <option value="토끼">
+      <option value="기니피그">
+    </datalist><br><br>
+
     <label for="want">지금 가장 원하는 것:</label><br>
-    <select name="want">
-        <option value="종강">종강</option>
-        <option value="방학">방학</option>
-        <option value="시험취소">시험취소</option>
-      </select><br><br>
+    <select name="want" id="want">
+      <option value="종강">종강</option>
+      <option value="방학">방학</option>
+      <option value="시험취소">시험취소</option>
+    </select><br><br>
+
     <label for="message">하고 싶은 말:</label><br>
-    <textarea id="message" name="message"  placeholder="의견을 입력하세요" required></textarea><br><br>
+    <textarea id="message" name="message" placeholder="의견을 입력하세요" required></textarea><br><br>
+
     <button type="submit">제출</button>
-    </form>
-   </body>
-   </html>
+  </form>
+</body>
+</html>
